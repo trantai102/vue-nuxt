@@ -20,7 +20,7 @@ export default defineComponent({
 
 <template>
   <div class="w-full ml-[96px] bgcolor2">
-    <AppHeader />
+    <app-header />
     <div class="p-5">
       <n-infinite-scroll :distance="10" class="h-[600px]">
         <div class="px-11">

@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useRoute } from "vue-router";
-import HeaderBoardDetail from "../../components/HeaderBoardDetail.vue";
+import AppHeaderBoardDetail from "../../components/AppHeaderBoardDetail.vue";
 import { useBoardsStore } from "../../stores/boards";
 export default defineComponent({
+  components: { AppHeaderBoardDetail },
   setup() {
     const route = useRoute();
     const boardsStore = useBoardsStore();
@@ -13,14 +14,14 @@ export default defineComponent({
       return boardsStore.BoardName.find((board) => board.id === id);
     });
 
-    return { HeaderBoardDetail, board };
+    return { AppHeaderBoardDetail, board };
   },
 });
 </script>
 
 <template>
   <div class="w-full ml-[96px] bgcolor2">
-    <HeaderBoardDetail />
+    <app-header-board-detail/>
       <div v-if="board" class="px-6 pt-6 mt-[64px]">
         <div class="flex flex-row gap-2">
           <div v-for="column in board.columns" :key="column.id">

@@ -25,7 +25,7 @@ export default defineComponent({
   <div class="fixed top-0 left-[96px] right-0 z-10">
     <n-layout-header>
       <n-space justify="space-between" align="center" class="py-4 px-6">
-        <h1 class="text-lg font-bold"> {{ board?.name }}</h1>
+        <h1 class="text-lg font-bold">{{ board?.name }}</h1>
         <button class="text-2xl text-teal-400 shrink-0">
           <el-icon><Star /></el-icon>
         </button>
