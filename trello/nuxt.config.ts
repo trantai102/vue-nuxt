@@ -13,25 +13,31 @@ export default defineNuxtConfig({
   },
   modules: ['nuxtjs-naive-ui',
     '@pinia/nuxt',
-    '@element-plus/nuxt'
+    '@nuxtjs/i18n'
   ],
-  vite: {
-    plugins: [
-      AutoImport({
-        imports: [
-          {
-            'naive-ui': [
-              'useDialog',
-              'useMessage',
-              'useNotification',
-              'useLoadingBar'
-            ]
-          }
-        ]
-      }),
-      Components({
-        resolvers: [NaiveUiResolver()]
-      })
-    ]
-  }
-})
+  i18n: {
+    locales: ['vi', 'en'], 
+    defaultLocale: 'vi',
+    vueI18n: './i18n.config.ts',
+  },
+
+    vite: {
+      plugins: [
+        AutoImport({
+          imports: [
+            {
+              'naive-ui': [
+                'useDialog',
+                'useMessage',
+                'useNotification',
+                'useLoadingBar'
+              ]
+            }
+          ]
+        }),
+        Components({
+          resolvers: [NaiveUiResolver()]
+        })
+      ]
+    }
+  })

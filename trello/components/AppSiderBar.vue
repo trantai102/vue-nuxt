@@ -1,35 +1,37 @@
 <script setup lang="ts">
-import { h } from "vue";
+import { ref, h } from "vue";
 import { NIcon } from "naive-ui";
+import { useI18n } from "vue-i18n";
 import {
   SearchOutline as SearchIcon,
   HomeOutline as HomeIcon,
   CardOutline as CardIcon,
   SettingsOutline as SettingsIcon,
+  LanguageOutline,
 } from "@vicons/ionicons5";
 
+const { setLocale } = useI18n();
 function renderIcon(icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
 const menuOptions = [
-  {
-    key: "1",
-    icon: renderIcon(SearchIcon),
-  },
-  {
-    key: "2",
-    icon: renderIcon(HomeIcon),
-  },
-  {
-    key: "3",
-    icon: renderIcon(CardIcon),
-  },
-  {
-    key: "4",
-    icon: renderIcon(SettingsIcon),
-  },
+  { key: "1", icon: renderIcon(SearchIcon) },
+  { key: "2", icon: renderIcon(HomeIcon) },
+  { key: "3", icon: renderIcon(CardIcon) },
+  { key: "4", icon: renderIcon(SettingsIcon) },
 ];
+
+const dropdownOptions = [
+  { label: "English", key: "en" },
+  { label: "Tiếng Việt", key: "vi" },
+];
+
+const handleSelect = (key: string) => {
+  setLocale(key);
+};
+
+const languageButtonRef = ref();
 </script>
 
 <template>
@@ -54,6 +56,15 @@ const menuOptions = [
             :options="menuOptions"
             class="flex flex-col justify-center items-center"
           />
+          <div class="flex justify-center items-center hover:bg-slate-100 p-2">
+            <n-dropdown :options="dropdownOptions" @select="handleSelect">
+              <button ref="languageButtonRef">
+                <n-icon>
+                  <LanguageOutline />
+                </n-icon>
+              </button>
+            </n-dropdown>
+          </div>
         </n-layout-sider>
       </n-layout>
     </n-space>
