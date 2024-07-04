@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.color1 {
-    @apply text-[#4d5869]
-}
-
-.bgcolor1 {
-    @apply bg-[#edf2f7]
-}
-
-.bgcolor2 {
+body{
     @apply bg-[#f7fafc]
 }
-

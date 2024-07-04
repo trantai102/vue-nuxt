@@ -1,31 +1,42 @@
-<script lang="ts">
-import { defineComponent, computed, ref } from "vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
 import { useBoardsStore } from "../stores/boards";
 import { StarFilled as Star } from "@element-plus/icons-vue";
-import { useRoute } from "vue-router";
 
-export default defineComponent({
-  components: { Star },
+const boardsStore = useBoardsStore();
 
-  setup() {
-    const route = useRoute();
-    const boardsStore = useBoardsStore();
-    const id = route.params.id;
+const route = useRoute();
+const id = route.params.id as string;
 
-    const board = computed(() => {
-      return boardsStore.BoardName.find((board) => board.id === id);
-    });
-
-    return { Star, board };
-  },
+const board = computed(() => {
+  return boardsStore.boards.find((board) => board.id === id);
 });
-</script>
 
+const inputRef = ref<HTMLInputElement | null>(null);
+const boardName = ref(board.value?.name || "");
+
+const handleEditBoard = () => {
+  if (board.value && boardName.value.trim() !== "") {
+    boardsStore.updateBoard(id, boardName.value.trim());
+    inputRef.value?.blur();
+  }
+};
+</script>
 <template>
-  <div class="fixed top-0 left-[96px] right-0 z-10">
+  <div class="fixed top-0 left-[96px] right-0 z-10 flex-shrink">
     <n-layout-header>
       <n-space justify="space-between" align="center" class="py-4 px-6">
-        <h1 class="text-lg font-bold">{{ board?.name }}</h1>
+        <div>
+          <input
+            ref="inputRef"
+            v-model="boardName"
+            class="w-full !border-0 text-lg focus:outline-none !bg-none focus:bg-[#edf2f7] text-[#4a5567] font-bold h-10 rounded p-5"
+            @keydown.enter="handleEditBoard"
+            autocomplete="off"
+            placeholder="Enter board name"
+          />
+        </div>
         <button class="text-2xl text-teal-400 shrink-0">
           <el-icon><Star /></el-icon>
         </button>
@@ -33,3 +44,6 @@ export default defineComponent({
     </n-layout-header>
   </div>
 </template>
+
+
+

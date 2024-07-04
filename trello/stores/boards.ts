@@ -1,20 +1,31 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
+interface Task {
+  id: string;
+  name: string;
+}
+
+interface Column {
+  id: string;
+  name: string;
+  tasks: Task[];
+}
+
+interface Board {
+  id: string;
+  name: string;
+  columns: Column[];
+}
+
 export const useBoardsStore = defineStore('boards', () => {
-  const BoardName = ref([
+  const boards = ref<Board[]>([
     {
       id: '1',
       name: 'Board 1',
       columns: [
         { id: '1', name: 'Column 1', tasks: [{ id: '1', name: 'Task 1' }, { id: '2', name: 'Task 2' }] },
         { id: '2', name: 'Column 2', tasks: [{ id: '3', name: 'Task 3' }, { id: '4', name: 'Task 4' }] },
-        { id: '3', name: 'Column 1', tasks: [{ id: '1', name: 'Task 1' }, { id: '2', name: 'Task 2' }] },
-        { id: '4', name: 'Column 2', tasks: [{ id: '3', name: 'Task 3' }, { id: '4', name: 'Task 4' }] },
-        { id: '5', name: 'Column 1', tasks: [{ id: '1', name: 'Task 1' }, { id: '2', name: 'Task 2' }] },
-        { id: '6', name: 'Column 2', tasks: [{ id: '3', name: 'Task 3' }, { id: '4', name: 'Task 4' }] },
-        { id: '7', name: 'Column 1', tasks: [{ id: '1', name: 'Task 1' }, { id: '2', name: 'Task 2' }] },
-        { id: '8', name: 'Column 2', tasks: [{ id: '3', name: 'Task 3' }, { id: '4', name: 'Task 4' }] },
       ],
     },
     {
@@ -26,16 +37,46 @@ export const useBoardsStore = defineStore('boards', () => {
       ],
     },
   ]);
-  const addBoard = (body: { id: string; name: string }) => {
-    BoardName.value.push({
-      ...body,
+
+  const addBoard = (board: { id: string; name: string }) => {
+    boards.value.push({
+      ...board,
       columns: [],
     });
   };
-  
 
+  const addBoardColumn = (boardId: string, column: { name: string, tasks: any[] }) => {
+    const board = boards.value.find((b: Board) => b.id === boardId);
+    if (board) {
+      board.columns.push({
+        id: String(board.columns.length + 1),
+        ...column,
+      });
+    }
+  };
+
+  const addTaskToColumn = (boardId: string, columnId: string, task: { name: string }) => {
+    const board = boards.value.find(b => b.id === boardId);
+    const column = board?.columns.find(c => c.id === columnId);
+    if (column) {
+      column.tasks.push({
+        id: String(column.tasks.length + 1),
+        ...task,
+      });
+    }
+  };
+
+  const updateBoard = (boardId: string, newName: string) => {
+    const board = boards.value.find(b => b.id === boardId);
+    if (board) {
+      board.name = newName;
+    }
+  };
   return {
-    BoardName,
+    boards,
     addBoard,
+    addBoardColumn,
+    addTaskToColumn,
+    updateBoard
   };
 });
