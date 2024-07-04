@@ -4,10 +4,6 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['nuxtjs-naive-ui',
-    '@pinia/nuxt',
-    '@element-plus/nuxt'
-  ],
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {
@@ -15,6 +11,10 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  modules: ['nuxtjs-naive-ui',
+    '@pinia/nuxt',
+    '@element-plus/nuxt'
+  ],
   vite: {
     plugins: [
       AutoImport({

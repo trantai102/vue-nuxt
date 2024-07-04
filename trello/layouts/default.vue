@@ -1,16 +1,12 @@
-<script lang="ts">
-import AppSiderBar from "../components/AppSiderBar.vue";
-export default {
-  components: {
-    AppSiderBar,
-  },
-};
+<script setup lang="ts">
 </script>
+
 <template>
   <div class="flex">
     <app-sider-bar />
     <slot />
   </div>
 </template>
-<style>
+
+<style scoped>
 </style>

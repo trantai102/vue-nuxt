@@ -1,33 +1,29 @@
-<script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+<script setup lang="ts">
+import { ref, reactive } from "vue";
 import { useBoardsStore } from "../stores/boards";
 
-export default defineComponent({
-  setup() {
-    const boardsStore = useBoardsStore();
-    const showModal = ref(false);
-    const datass = reactive({
-      name: "",
-    });
+const boardsStore = useBoardsStore();
 
-    const addBoard = async () => {
-      boardsStore.addBoard({ id: String(Math.random()), ...datass });
-      console.log("body", boardsStore);
-      showModal.value = false;
-      datass.name = "";
-    };
+const showModal = ref(false);
 
-    const cancelModal = () => {
-      showModal.value = false;
-    };
-
-    return { showModal, datass, addBoard, cancelModal };
-  },
+const datass = reactive({
+  name: "",
 });
+
+const addBoard = async () => {
+  boardsStore.addBoard({ id: String(Date.now()), name: datass.name });
+  console.log("boardsStore:", boardsStore.boards);
+  showModal.value = false;
+  datass.name = "";
+};
+
+const cancelModal = () => {
+  showModal.value = false;
+};
 </script>
 
 <template>
-  <div>
+  <div class="fixed top-0 left-[96px] right-0 z-10 flex-shrink">
     <n-layout-header>
       <n-space justify="space-between" align="center" class="py-6 px-16">
         <h1 class="text-5xl font-bold">Boards</h1>
