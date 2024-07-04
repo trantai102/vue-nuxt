@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { useBoardsStore } from "../stores/boards";
+import { useI18n } from "vue-i18n";
+const { locale, setLocale } = useI18n();
 
 const boardsStore = useBoardsStore();
 
@@ -26,9 +28,9 @@ const cancelModal = () => {
   <div class="fixed top-0 left-[96px] right-0 z-10 flex-shrink">
     <n-layout-header>
       <n-space justify="space-between" align="center" class="py-6 px-16">
-        <h1 class="text-5xl font-bold">Boards</h1>
+        <h1 class="text-5xl font-bold">{{ $t("boards") }}</h1>
         <n-button strong secondary @click="showModal = true">
-          Add new board
+          {{ $t("addnewboard") }}
         </n-button>
       </n-space>
     </n-layout-header>

@@ -2,12 +2,16 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useBoardsStore } from "../stores/boards";
-import { StarFilled as Star } from "@element-plus/icons-vue";
+import { StarOutline } from "@vicons/ionicons5";
+import { useI18n } from "vue-i18n";
 
+const localePath = useLocalePath();
 const boardsStore = useBoardsStore();
 const { boards } = storeToRefs(boardsStore);
 
 const value = ref<string | null>(null);
+
+
 </script>
 
 <template>
@@ -18,14 +22,16 @@ const value = ref<string | null>(null);
         <div class="px-11">
           <div class="flex justify-between">
             <div>
-              <h3 class="text-[#4d5869] text-[18.72px]">All Boards</h3>
+              <h3 class="text-[#4d5869] text-[18.72px]">
+                {{ $t("allboards") }}
+              </h3>
             </div>
             <div>
               <n-input
                 :value="value"
                 type="text"
                 placeholder="Filter boards"
-                class=" bg-[#edf2f7] rounded-lg px-[15px] leading-10 text-[14px]"
+                class="bg-[#edf2f7] rounded-lg px-[15px] leading-10 text-[14px]"
               />
             </div>
           </div>
@@ -35,7 +41,7 @@ const value = ref<string | null>(null);
             <nuxt-link
               v-for="board in boards"
               :key="board.id"
-              :to="`/board/${board.id}`"
+              :to="localePath(`/board/${board.id}`)"
             >
               <div
                 class="todo-card bg-white rounded-lg shadow-sm border-[1px] border-[#eaeaea] p-6 max-w-full h-[130px] flex flex-row justify-between items-center cursor-pointer"
@@ -44,7 +50,9 @@ const value = ref<string | null>(null);
                   {{ board.name }}
                 </span>
                 <button class="text-2xl text-teal-400 shrink-0">
-                  <el-icon><Star /></el-icon>
+                  <n-icon>
+                    <StarOutline />
+                  </n-icon>
                 </button>
               </div>
             </nuxt-link>

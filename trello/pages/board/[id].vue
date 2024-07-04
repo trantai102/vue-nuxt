@@ -4,6 +4,11 @@ import { useRoute } from "vue-router";
 import { useBoardsStore } from "../../stores/boards";
 import { NIcon } from "naive-ui";
 import { EllipsisVerticalOutline, CloseCircleOutline, CopyOutline, TrashOutline } from "@vicons/ionicons5";
+import { useI18n } from "vue-i18n";
+
+
+const { t } = useI18n();
+
 const boardsStore = useBoardsStore();
 
 const route = useRoute();
@@ -46,17 +51,17 @@ function renderIcon(icon: any) {
 }
 const options = [
   {
-    label: " Delete all items in column ",
+    label: t('deleteallcolumn'),
     key: "1",
     icon: renderIcon(CloseCircleOutline),
   },
   {
-    label: "Copy column",
+    label: t('copycolumn'),
     key: "2",
     icon: renderIcon(CopyOutline),
   },
   {
-    label: "Delete column",
+    label: t('deletecolum'),
     key: "logout",
     icon: renderIcon(TrashOutline),
   },
@@ -99,7 +104,7 @@ const options = [
                   v-if="currentColumnId !== column.id"
                   @click="currentColumnId = column.id"
                 >
-                  +Add new task
+                  +{{ $t("addnewtask") }}
                 </button>
                 <input
                   v-else
@@ -128,7 +133,7 @@ const options = [
             class="flex h-10 w-full items-center rounded text-[#4a5567] hover:bg-[#edf2f7] focus-within:bg-[#edf2f7]"
           >
             <button class="p-5" v-if="!showInput" @click="showInput = true">
-              +Add new column
+              +{{ $t("addnewcolumn") }}
             </button>
             <input
               v-else

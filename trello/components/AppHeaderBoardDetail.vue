@@ -2,7 +2,8 @@
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useBoardsStore } from "../stores/boards";
-import { StarFilled as Star } from "@element-plus/icons-vue";
+import { StarOutline } from "@vicons/ionicons5";
+
 
 const boardsStore = useBoardsStore();
 
@@ -38,7 +39,9 @@ const handleEditBoard = () => {
           />
         </div>
         <button class="text-2xl text-teal-400 shrink-0">
-          <el-icon><Star /></el-icon>
+          <n-icon>
+            <StarOutline />
+          </n-icon>
         </button>
       </n-space>
     </n-layout-header>
