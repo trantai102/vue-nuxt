@@ -1,0 +1,12 @@
+{
+    "welcome": "Welcome",
+    "boards": "Boards",
+    "allboards": "All Boards",
+    "addnewboard": "Add new board",
+    "addnewcolumn": "Add new column",
+    "addnewtask": "Add new task",
+    "deleteallcolumn": "Delete all items in column",
+    "copycolumn": "Copy column",
+    "deletecolum": "Delete column",
+    "deleteboard": "Delete board"
+}

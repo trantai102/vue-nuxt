@@ -49,7 +49,7 @@ export const useBoardsStore = defineStore('boards', () => {
     const board = boards.value.find((b: Board) => b.id === boardId);
     if (board) {
       board.columns.push({
-        id: String(board.columns.length + 1),
+        id: String(Date.now()),
         ...column,
       });
     }
@@ -60,7 +60,7 @@ export const useBoardsStore = defineStore('boards', () => {
     const column = board?.columns.find(c => c.id === columnId);
     if (column) {
       column.tasks.push({
-        id: String(column.tasks.length + 1),
+        id: String(Math.random().toString(36).substring(2,9)),
         ...task,
       });
     }
@@ -72,11 +72,34 @@ export const useBoardsStore = defineStore('boards', () => {
       board.name = newName;
     }
   };
+
+  const deleteBoard =(boardId: string) => {
+    boards.value = boards.value.filter(b => b.id!== boardId);
+  };
+
+  const deleteColumn = (boardId: string, columnId: string) => {
+    const board = boards.value.find(b => b.id == boardId);
+    if (board) {
+      board.columns = board.columns.filter(c => c.id !== columnId);
+    }
+  }
+
+  const deleteAllTasks = (boardId: string, columnId: string) => {
+    const board = boards.value.find(b => b.id === boardId);
+    const column = board?.columns.find(c => c.id === columnId);
+    if (column) {
+      column.tasks = [];
+    }
+  };
+
   return {
     boards,
     addBoard,
     addBoardColumn,
     addTaskToColumn,
-    updateBoard
+    updateBoard,
+    deleteBoard,
+    deleteColumn,
+    deleteAllTasks
   };
 });

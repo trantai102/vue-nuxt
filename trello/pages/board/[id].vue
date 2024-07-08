@@ -2,10 +2,14 @@
 import { computed, h, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useBoardsStore } from "../../stores/boards";
-import { NIcon } from "naive-ui";
-import { EllipsisVerticalOutline, CloseCircleOutline, CopyOutline, TrashOutline } from "@vicons/ionicons5";
+import { NIcon, NDropdown } from "naive-ui"; 
+import {
+  EllipsisVerticalOutline,
+  CloseCircleOutline,
+  CopyOutline,
+  TrashOutline,
+} from "@vicons/ionicons5";
 import { useI18n } from "vue-i18n";
-
 
 const { t } = useI18n();
 
@@ -46,23 +50,33 @@ const handleAddTask = (columnId: string) => {
   inputValue.value = "";
   currentColumnId.value = "";
 };
+
 function renderIcon(icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
+
+const handleSelect = (key: string, column: any) => {
+  if (key === "3") {
+    boardsStore.deleteColumn(id, column.id);
+  } else if (key === "1") {
+    boardsStore.deleteAllTasks(id, column.id);
+  }
+};
+
 const options = [
   {
-    label: t('deleteallcolumn'),
+    label: t("deleteallcolumn"),
     key: "1",
     icon: renderIcon(CloseCircleOutline),
   },
   {
-    label: t('copycolumn'),
+    label: t("copycolumn"),
     key: "2",
     icon: renderIcon(CopyOutline),
   },
   {
-    label: t('deletecolum'),
-    key: "logout",
+    label: t("deletecolum"),
+    key: "3",
     icon: renderIcon(TrashOutline),
   },
 ];
@@ -75,7 +89,7 @@ const options = [
       <div class="flex flex-row gap-2">
         <div v-for="column in board.columns" :key="column.id">
           <n-infinite-scroll :distance="5" class="h-[600px]">
-            <div class="min-w-[200px] md:min-w-[352px] overflow-y-auto">
+            <div class="min-w-[200px] md:min-w-[352px] overflow-y-auto px-2">
               <div class="flex flex-row items-center">
                 <input
                   v-model="column.name"
@@ -90,6 +104,7 @@ const options = [
                   trigger="click"
                   size="large"
                   :options="options"
+                  @select="(key) => handleSelect(key, column)"
                 >
                   <n-icon>
                     <EllipsisVerticalOutline />
