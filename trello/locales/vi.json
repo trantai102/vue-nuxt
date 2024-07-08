@@ -1,0 +1,12 @@
+{
+    "welcome": "Chào mừng",
+    "boards": "Bảng",
+    "allboards": "Tất cả các bảng",
+    "addnewboard": "Thêm bảng mới",
+    "addnewcolumn": "Thêm cột mới",
+    "addnewtask": "Thêm nhiệm vụ mới",
+    "deleteallcolumn": "Xóa tất cả các mục trong cột",
+    "copycolumn": "Sao chép cột",
+    "deletecolum": "Xóa cột",
+    "deleteboard": "Xóa bảng"
+}

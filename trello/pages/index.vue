@@ -1,17 +1,55 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { defineComponent, ref, nextTick, h } from "vue";
 import { storeToRefs } from "pinia";
 import { useBoardsStore } from "../stores/boards";
 import { StarOutline } from "@vicons/ionicons5";
 import { useI18n } from "vue-i18n";
+import { NIcon, useMessage, NDropdown } from "naive-ui";
+import { CloseCircleOutline } from "@vicons/ionicons5";
 
 const localePath = useLocalePath();
+const { t } = useI18n();
 const boardsStore = useBoardsStore();
 const { boards } = storeToRefs(boardsStore);
 
-const value = ref<string | null>(null);
+const message = useMessage();
+const showDropdownRef = ref(false);
+const xRef = ref(0);
+const yRef = ref(0);
 
+const handleContextMenu = (e: MouseEvent) => {
+  e.preventDefault();
+  showDropdownRef.value = false;
+  nextTick().then(() => {
+    showDropdownRef.value = true;
+    xRef.value = e.clientX;
+    yRef.value = e.clientY;
+  });
+};
 
+const onClickoutside = () => {
+  showDropdownRef.value = false;
+};
+
+const search = ref<string | null>(null);
+
+const options = [
+  {
+    label: t("deleteboard"),
+    key: "delete",
+    icon: renderIcon(CloseCircleOutline),
+  },
+];
+
+const handleSelect = (key: string, board: any) => {
+  if (key === "delete") {
+    boardsStore.deleteBoard(board.id);
+  }
+};
+
+function renderIcon(icon: any) {
+  return () => h(NIcon, null, { default: () => h(icon) });
+}
 </script>
 
 <template>
@@ -28,7 +66,7 @@ const value = ref<string | null>(null);
             </div>
             <div>
               <n-input
-                :value="value"
+                :value="search"
                 type="text"
                 placeholder="Filter boards"
                 class="bg-[#edf2f7] rounded-lg px-[15px] leading-10 text-[14px]"
@@ -45,6 +83,7 @@ const value = ref<string | null>(null);
             >
               <div
                 class="todo-card bg-white rounded-lg shadow-sm border-[1px] border-[#eaeaea] p-6 max-w-full h-[130px] flex flex-row justify-between items-center cursor-pointer"
+                @contextmenu="handleContextMenu"
               >
                 <span class="text-2xl font-bold truncate">
                   {{ board.name }}
@@ -54,6 +93,16 @@ const value = ref<string | null>(null);
                     <StarOutline />
                   </n-icon>
                 </button>
+                <n-dropdown
+                  placement="bottom-start"
+                  trigger="manual"
+                  :x="xRef"
+                  :y="yRef"
+                  :options="options"
+                  :show="showDropdownRef"
+                  :on-clickoutside="onClickoutside"
+                  @select="(key) => handleSelect(key, board)"
+                />
               </div>
             </nuxt-link>
           </div>
