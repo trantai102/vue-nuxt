@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
 import { useBoardsStore } from "../stores/boards";
 import { StarOutline } from "@vicons/ionicons5";
-
 
 const boardsStore = useBoardsStore();
 
@@ -28,7 +25,7 @@ const handleEditBoard = () => {
   <div class="fixed top-0 left-[96px] right-0 z-10 flex-shrink">
     <n-layout-header>
       <n-space justify="space-between" align="center" class="py-4 px-6">
-        <div>
+       
           <input
             ref="inputRef"
             v-model="boardName"
@@ -37,7 +34,7 @@ const handleEditBoard = () => {
             autocomplete="off"
             placeholder="Enter board name"
           />
-        </div>
+        
         <button class="text-2xl text-teal-400 shrink-0">
           <n-icon>
             <StarOutline />

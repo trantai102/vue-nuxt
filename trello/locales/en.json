@@ -8,5 +8,6 @@
     "deleteallcolumn": "Delete all items in column",
     "copycolumn": "Copy column",
     "deletecolum": "Delete column",
-    "deleteboard": "Delete board"
+    "deleteboard": "Delete board",
+    "favorite": "Favorite"
 }

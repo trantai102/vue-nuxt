@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, h, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useBoardsStore } from "../../stores/boards";
 import { NIcon, NDropdown } from "naive-ui"; 
