@@ -13,13 +13,14 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['nuxtjs-naive-ui',
+  modules: [
+    'nuxtjs-naive-ui',
     '@pinia/nuxt',
     '@nuxtjs/i18n'
   ],
 
   i18n: {
-    locales: ['vi', 'en'], 
+    locales: ['vi', 'en'],
     defaultLocale: 'vi',
     vueI18n: './i18n.config.ts',
   },
@@ -28,6 +29,10 @@ export default defineNuxtConfig({
     plugins: [
       AutoImport({
         imports: [
+          'vue',
+          'pinia',
+          'vue-i18n',
+          
           {
             'naive-ui': [
               'useDialog',
@@ -36,7 +41,8 @@ export default defineNuxtConfig({
               'useLoadingBar'
             ]
           }
-        ]
+        ],
+        dts: 'auto-imports.d.ts',
       }),
       Components({
         resolvers: [NaiveUiResolver()]

@@ -1,51 +1,35 @@
 <script setup lang="ts">
-import { defineComponent, ref, nextTick, h } from "vue";
 import { storeToRefs } from "pinia";
 import { useBoardsStore } from "../stores/boards";
-import { StarOutline } from "@vicons/ionicons5";
 import { useI18n } from "vue-i18n";
 import { NIcon, useMessage, NDropdown } from "naive-ui";
-import { CloseCircleOutline } from "@vicons/ionicons5";
+import {
+  CloseCircleOutline,
+  EllipsisHorizontalOutline,
+  TrashOutline,
+  StarOutline,
+} from "@vicons/ionicons5";
 
 const localePath = useLocalePath();
 const { t } = useI18n();
 const boardsStore = useBoardsStore();
 const { boards } = storeToRefs(boardsStore);
 
-const message = useMessage();
-const showDropdownRef = ref(false);
-const xRef = ref(0);
-const yRef = ref(0);
-
-const handleContextMenu = (e: MouseEvent) => {
-  e.preventDefault();
-  showDropdownRef.value = false;
-  nextTick().then(() => {
-    showDropdownRef.value = true;
-    xRef.value = e.clientX;
-    yRef.value = e.clientY;
-  });
-};
-
-const onClickoutside = () => {
-  showDropdownRef.value = false;
-};
-
 const search = ref<string | null>(null);
+
+const handleSelect = (key: string, board: any) => {
+  if (key === "deleteboard") {
+    boardsStore.deleteBoard(board.id);
+  }
+};
 
 const options = [
   {
     label: t("deleteboard"),
-    key: "delete",
-    icon: renderIcon(CloseCircleOutline),
+    key: "deleteboard",
+    icon: renderIcon(TrashOutline),
   },
 ];
-
-const handleSelect = (key: string, board: any) => {
-  if (key === "delete") {
-    boardsStore.deleteBoard(board.id);
-  }
-};
 
 function renderIcon(icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -76,35 +60,36 @@ function renderIcon(icon: any) {
           <div
             class="w-full h-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-10"
           >
-            <nuxt-link
-              v-for="board in boards"
-              :key="board.id"
-              :to="localePath(`/board/${board.id}`)"
-            >
+            <div v-for="board in boards" :key="board.id">
               <div
-                class="todo-card bg-white rounded-lg shadow-sm border-[1px] border-[#eaeaea] p-6 max-w-full h-[130px] flex flex-row justify-between items-center cursor-pointer"
-                @contextmenu="handleContextMenu"
+                class="todo-card group bg-white rounded-lg shadow-sm border-[1px] border-[#eaeaea] p-6 max-w-full h-[130px] flex flex-row justify-between items-center cursor-pointer"
               >
-                <span class="text-2xl font-bold truncate">
-                  {{ board.name }}
-                </span>
-                <button class="text-2xl text-teal-400 shrink-0">
-                  <n-icon>
-                    <StarOutline />
-                  </n-icon>
-                </button>
-                <n-dropdown
-                  placement="bottom-start"
-                  trigger="manual"
-                  :x="xRef"
-                  :y="yRef"
-                  :options="options"
-                  :show="showDropdownRef"
-                  :on-clickoutside="onClickoutside"
-                  @select="(key) => handleSelect(key, board)"
-                />
+                <nuxt-link :to="localePath(`/board/${board.id}`)">
+                  <span class="text-2xl font-bold truncate">
+                    {{ board.name }}
+                  </span>
+                </nuxt-link>
+
+                <div class="flex gap-1 items-center">
+                  <n-dropdown
+                    placement="bottom-start"
+                    trigger="hover"
+                    size="large"
+                    :options="options"
+                    @select="(key) => handleSelect(key, board)"
+                  >
+                    <n-icon class="text-2xl group-hover:block hidden">
+                      <EllipsisHorizontalOutline />
+                    </n-icon>
+                  </n-dropdown>
+                  <button class="text-2xl text-teal-400 shrink-0">
+                    <n-icon>
+                      <StarOutline />
+                    </n-icon>
+                  </button>
+                </div>
               </div>
-            </nuxt-link>
+            </div>
           </div>
         </div>
       </n-infinite-scroll>

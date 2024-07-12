@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
 import { useBoardsStore } from "../stores/boards";
 import { useI18n } from "vue-i18n";
-const { locale, setLocale } = useI18n();
 
 const boardsStore = useBoardsStore();
 

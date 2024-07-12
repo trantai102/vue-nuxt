@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, h } from "vue";
 import { NIcon } from "naive-ui";
 import { useI18n } from "vue-i18n";
 import {
@@ -9,17 +8,21 @@ import {
   SettingsOutline as SettingsIcon,
   LanguageOutline,
 } from "@vicons/ionicons5";
+import { useRouter } from 'vue-router';
 
-const { setLocale } = useI18n();
+const { setLocale, locale } = useI18n();
+const router = useRouter();
+const localePath = useLocalePath();
+
 function renderIcon(icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
 const menuOptions = [
-  { key: "1", icon: renderIcon(SearchIcon) },
-  { key: "2", icon: renderIcon(HomeIcon) },
-  { key: "3", icon: renderIcon(CardIcon) },
-  { key: "4", icon: renderIcon(SettingsIcon) },
+  { key: "1", icon: renderIcon(SearchIcon),},
+  { key: "2", icon: renderIcon(HomeIcon), },
+  { key: "3", icon: renderIcon(CardIcon),  },
+  { key: "4", icon: renderIcon(SettingsIcon), },
 ];
 
 const dropdownOptions = [
@@ -31,9 +34,9 @@ const handleSelect = (key: string) => {
   setLocale(key);
 };
 
+
 const languageButtonRef = ref();
 </script>
-
 <template>
   <div class="flex fixed flex-shrink z-10">
     <n-space vertical size="large">
@@ -47,9 +50,7 @@ const languageButtonRef = ref();
           bordered
           class="h-screen"
         >
-          <a class="text-2xl font-bold text-center mb-10 block" href="/"
-            >Trello</a
-          >
+          <router-link class="text-2xl font-bold text-center mb-10 block" :to="localePath('/')">Trello</router-link>
           <n-menu
             :collapsed-width="64"
             :collapsed-icon-size="25"
