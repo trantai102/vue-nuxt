@@ -50,7 +50,7 @@ const languageButtonRef = ref();
           bordered
           class="h-screen"
         >
-          <router-link class="text-2xl font-bold text-center mb-10 block" :to="localePath('/')">Todo</router-link>
+          <router-link class="text-2xl font-bold text-center mb-10 block" :to="localePath('/')">Trello</router-link>
           <n-menu
             :collapsed-width="64"
             :collapsed-icon-size="25"
